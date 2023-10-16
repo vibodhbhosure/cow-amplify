@@ -76,7 +76,7 @@ export function ApexChart(props) {
           },
         },
         xaxis: {
-          categories: ['normal', 'normal', 'normal', 'normal', 'normal', 'normal', 'high', 'high', 'very-high', 'risk', 'risk'],
+          categories: ['1', '2', '3', '4', '5'],
         }
       }
     }));
