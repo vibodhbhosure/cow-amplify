@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 // import { useCallback } from 'react';
 import { Amplify } from 'aws-amplify';
@@ -25,7 +25,7 @@ class Sensors extends React.Component {
         super(props);
         this.state = {
             sensorMsg: '{"null": 0}',
-            arrays: [12, 23, 34, 35, 40],
+            arrays: [10, 20, 30, 40, 50],
             shouldRender: true
         };
     }
@@ -35,7 +35,8 @@ class Sensors extends React.Component {
         PubSub.subscribe('device/12/data').subscribe({
             next: data => {
                 try {
-                    this.setState({ sensorMsg: data.value });
+                    this.setState({ sensorMsg: data.value, arrays: this.state.arrays.slice(-4).concat([parseInt(data.value.temperature)]) });
+
                 } catch (error) {
                     console.log("Error, are you sending the correct data?");
                 }
@@ -52,54 +53,15 @@ class Sensors extends React.Component {
             sensorData = sensorData.toFixed(2); // Format to two decimal places
         }
 
-        const { arrays } = this.state;
 
-        var temp = `${sensorData > 39 ? 'danger' : 'Normal'}`;
-
-
-
-
-
-        const move = (ev) => {
-            ev.preventDefault();
-
-            //Runs only on the first render
-            // convert array to JSON string using JSON.stringify()
-
-
-            const jsonArray = JSON.stringify(arrays);
-
-            // save to localStorage using "array" as the key and jsonArray as the value
-            localStorage.setItem('array', jsonArray);
-
-            // get the JSON string from localStorage
-            const str = localStorage.getItem('array');
-
-            // convert JSON string to relevant object
-            const parsedArray = JSON.parse(str);
-
-            console.log(parsedArray);
-            console.log("added", { arrays });
-
-            temp = sensorData
-            if (arrays.length != 5) {
-                arrays.push(+temp);
-            } else {
-                arrays.shift();
-                arrays.push(+temp);
-            }
-        };
-
-
-
-
+        var temp = `${sensorData > 40 ? 'danger' : 'Normal'}`;
         var back = temp === "Normal" ? 'green' : 'red';
 
         return (
             <>
                 <div className="Sensor">
 
-                    <Card style={{ width: '18rem', backgroundColor: `${back}`, color: "white",marginBottom:"30px" }} >
+                    <Card style={{ width: '18rem', backgroundColor: `${back}`, color: "white", marginBottom: "30px" }} >
                         <Card.Body>
                             <Card.Title>{this.props.name}</Card.Title>
                             <Card.Text>
@@ -110,7 +72,7 @@ class Sensors extends React.Component {
                                 {temp}
                             </Card.Text>
                         </Card.Body>
-                        <button style={{ color: "white",margin:"10px",backgroundColor:"blue" }} onClick={move}>Add</button>
+                        {/* <button style={{ color: "white", margin: "10px", backgroundColor: "blue" }} onClick={move}>Add</button> */}
                     </Card>
                     <style jsx>{
                         `
@@ -128,10 +90,10 @@ class Sensors extends React.Component {
                 </div>
 
 
-                <div className='ml-[320px] mt-10' style={{ display: "flex", alignContent: "center", justifyContent: "space-around", width: "350px",margin:"auto",flexWrap:"wrap"}}>
-                    <ApexChart />
-                    <BarChart />
-                    <Clusters/>
+                <div className='ml-[320px] mt-10' style={{ display: "flex", alignContent: "center", justifyContent: "space-around", width: "350px", margin: "auto", flexWrap: "wrap" }}>
+                    <ApexChart args={this.state.arrays} />
+                    <BarChart args={this.state.arrays} />
+                    <Clusters args={this.state.arrays} />
                 </div>
             </>
         )
