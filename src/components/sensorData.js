@@ -110,7 +110,7 @@ class Sensors extends React.Component {
                                 {temp}
                             </Card.Text>
                         </Card.Body>
-                        <button style={{ color: "white",margin:"10px",backgroundColor:"blue" }} onClick={move}>add</button>
+                        <button style={{ color: "white",margin:"10px",backgroundColor:"blue" }} onClick={move}>Add</button>
                     </Card>
                     <style jsx>{
                         `

@@ -19,6 +19,7 @@ export function BarChart() {
        data:[storedArray[0],storedArray[1],storedArray[2],storedArray[3],storedArray[4]]
       }
     ],
+     
 
     options :{
         chart: {
