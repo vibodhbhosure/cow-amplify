@@ -15,6 +15,8 @@ import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui/dist/styles.css';
 
 import { Auth } from 'aws-amplify';
+import Menu from './components/Menu';
+import { BarChart } from './components/BarChart';
 
 Amplify.configure(awsconfig);
 
@@ -32,6 +34,7 @@ async function signOut() {
 function App() {
   return (
     <div className="App">
+      <Menu/>
       <div className='ml-[1300px] mt-10'>
         <button className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded " onClick={signOut} >
           Signout
@@ -42,10 +45,6 @@ function App() {
          <Sensors name="temperature" unit="°C" />
       </div>
       
-      
-       <div className='ml-[320px] mt-10'>
-         <ApexChart/>
-       </div>
     </div>
   );
 }

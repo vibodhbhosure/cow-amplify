@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useCallback  } from 'react';
 import Card from 'react-bootstrap/Card';
 import { PubSub } from 'aws-amplify';
 
@@ -23,15 +23,33 @@ function TemperatureCard(props) {
       subscription.unsubscribe();
     };
   }, []);
-
+   
   const { temperature } = sensorMsg;
+
+
   const cardStyle = {
     backgroundColor: temperature > 39 ? 'red' : 'green',
   };
 
   const status = temperature > 39 ? 'Risk' : 'Normal';
 
+  let arrays=[];
+
+  const move=(ev)=>{
+    ev.preventDefault();
+    let arr={
+      temp:temperature
+    }
+    arrays.push(arr);
+
+    console.log("added",{arrays});
+  }
+
+
+
   return (
+    <>
+    <div class="tempcard">
     <div className="TemperatureCard">
       <Card style={{ width: '18rem', ...cardStyle }}>
         <Card.Body>
@@ -42,6 +60,9 @@ function TemperatureCard(props) {
         </Card.Body>
       </Card>
     </div>
+    </div>
+    <button style={{color:"black"}} onChange={move}>add</button>
+    </>
   );
 }
 
