@@ -8,7 +8,7 @@ import { ApexChart } from './ApexChart';
 import { BarChart } from './BarChart';
 import { PubSub, Auth } from 'aws-amplify';
 import { AWSIoTProvider } from '@aws-amplify/pubsub/lib/Providers';
-import Clusters from './Clusters';
+
 
 Amplify.configure(awsconfig);
 
@@ -93,7 +93,6 @@ class Sensors extends React.Component {
                 <div className='ml-[320px] mt-10' style={{ display: "flex", alignContent: "center", justifyContent: "space-around", width: "350px", margin: "auto", flexWrap: "wrap" }}>
                     <ApexChart args={this.state.arrays} />
                     <BarChart args={this.state.arrays} />
-                    <Clusters args={this.state.arrays} />
                 </div>
             </>
         )
